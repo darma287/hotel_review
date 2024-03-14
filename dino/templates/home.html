@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+<link href="{% static 'styles/home.css' %}" rel="stylesheet" />
+{% endblock extra_css %} {% block content %}
+
+<div class="main-content">
+  <div id="logo">
+    <img src="{% static 'images/dino_logo.png' %}" alt="Logo" />
+  </div>
+  <div class="search-bar-container">
+    <input class="search-input" type="text" placeholder="Search Hotels" />
+    <button style="background-color: transparent; border: none;" type="submit">
+      <img class="search-icon" src="{% static 'images/search-icon.png' %}" alt="Search" />
+    </button>
+  </div>
+
+  <section id="buttons-container">
+    <button type="button" id="top-hotels">Top Hotels</button>
+    <button type="button" id="recent-reviews">Recent Reviews</button>
+    <button type="button" id="hotels-by-cities">
+      Hotels according to cities
+    </button>
+  </section>
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/dino_logo.png' %}">
+    <link rel="stylesheet" href="{% static 'styles/reviews.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/navbar-top.css' %}">
+
+    <title>Dino</title>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar">
+
+        <div class="logo-name" onclick="location.href='{% url 'home' %}'">
+            <img src="{% static 'images/dino_logo.png' %}" alt="Logo">
+            <p>Dino<span style="font-size: 20px;">.com</span></p>
+        </div>
+        {% if not request.path == "/home/" %}
+        <div class="search-bar-container">
+            <input class="search-input" type="text" placeholder="Search Hotels" />
+            <button style="background-color: transparent; border: none;" type="submit">
+                <img class="search-icon" src="{% static 'images/search-icon.png' %}" alt="Search" />
+            </button>
+        </div>
+        {% endif %}
+        <div class="navbar-elements">
+            <p class="navbar-brand" onclick="location.href='{% url 'home' %}'">
+                Home
+            </p>
+            <p class="navbar-brand" onclick="location.href='{% url 'hotel-detail' %}'">
+                Hotels
+            </p>
+            <a class="navbar-brand" onclick="location.href='{% url 'user-profile' %}'">
+                Account
+            </a>
+            {% if request.session.uid %}
+            {% if request.session.profile_pic_url %}
+            <div class=" spherical-button" onclick="openSidebar()"
+                style="background-image: url('{{ request.session.profile_pic_url }}');">
+        </div>
+        {% else %}
+        <div class="spherical-button" onclick="openSidebar()">
+            Click me
+        </div>
+        {% endif %}
+        {% else %}
+        <a class="navbar-brand" href="{% url 'login' %}">Login</a>
+        {% endif %}
+        </div>
+    </nav>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+        {% if request.session.uid %}
+        <a class="navbar-brand" href="{% url 'user-profile' %}">
+            Account
+        </a>
+        <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
+        {% endif %}
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbarToggler = document.getElementById("navbar-toggler");
+            const navbarCollapse = document.getElementById("navbarNav");
+
+            navbarToggler.addEventListener("click", function () {
+                navbarToggler.classList.toggle("open");
+                navbarCollapse.classList.toggle("show");
+            });
+        });
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.width = "250px";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.width = "0";
+        }
+    </script>
+    {% block script %}{% endblock %}
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

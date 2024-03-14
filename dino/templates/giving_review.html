@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const listBox = document.getElementById("visit-type-list");
+        const visitTypes = document.querySelectorAll(".visit-type-item");
+
+        visitTypes.forEach((type, index) => {
+            type.addEventListener("click", function() {
+                const selectedIndex = parseInt(type.dataset.value);
+                document.getElementById("visit-type-value").value = selectedIndex;
+                resetVisitTypes();
+                for (let i = 0; i <= selectedIndex; i++) {
+                    visitTypes[i].classList.add("active");
+                }
+            });
+        });
+
+        function resetVisitTypes() {
+            visitTypes.forEach((type) => {
+                type.classList.remove("active");
+            });
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const datePicker = document.getElementById("visit-date");
+        // Initialize the date picker
+        datePicker.addEventListener("click", function() {
+            // Show the date picker when the input field is clicked
+            datePicker.type = "date";
+        });
+    });
+</script>
+
+<div class="review-parent">
+    <div class="hotel-info-container">adfadf</div>
+    <div class="hotel-review-container">
+        <form method="post" action="{% url 'post_user_hotel_data' %}">
+            {% csrf_token %}
+            <div class="review-info">
+                <p>How would you rate your experience?</p>
+                <select id="rating-list" name="rating">
+                    <option class="rating-item" value="1">1</option>
+                    <option class="rating-item" value="2">2</option>
+                    <option class="rating-item" value="3">3</option>
+                    <option class="rating-item" value="4">4</option>
+                    <option class="rating-item" value="5">5</option>
+                </select>
+            </div>
+            <div class="review-info">
+                <p>When did you go?</p>
+                <input type="date" id="visit-date" name="visit_date">
+            </div>
+            <div class="review-info">
+                <p>Who did you go with?</p>
+                <select id="visit-type-list" name="visit_type">
+                    <option class="visit-type-item" value="Alone">Alone</option>
+                    <option class="visit-type-item" value="With Family">With Family</option>
+                    <option class="visit-type-item" value="With Friends">With Friends</option>
+                    <option class="visit-type-item" value="With Partner">With Partner</option>
+                </select>
+            </div>
+            <div class="review-info">
+                <p>Title of your review</p>
+                <input type="text" name="review_title">
+            </div>
+            <div class="review-info">
+                <p>Your review</p>
+                <textarea name="review_content" id="" cols="30" rows="10"></textarea>
+            </div>
+
+<!--            <div class="review-info">-->
+<!--                <p>Add some photos (optional)</p>-->
+<!--                <div class="image-upload-container"> Add photos</div>-->
+<!--            </div>-->
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
